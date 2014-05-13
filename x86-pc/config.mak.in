@@ -1,0 +1,7 @@
+ARCH=@openbios_arch@
+CFLAGS=-fno-builtin -m32
+AS_FLAGS=-Wa,-32
+HOSTARCH?=@openbios_arch@
+CROSSCFLAGS=-USWAP_ENDIANNESS -DNATIVE_BITWIDTH_SMALLER_THAN_HOST_BITWIDTH
+VERSION="1.1"
+SRCDIR=@abs_top_srcdir@/openbios
