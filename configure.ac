@@ -20,7 +20,6 @@ AM_MAINTAINER_MODE
 AC_CANONICAL_HOST
 AC_PROG_CC
 
-
 AC_MSG_CHECKING([whether $host is a supported boot architecture])
 
 build_syslinux=no
@@ -48,10 +47,17 @@ fi
 AC_SUBST([boot_arch])
 AC_SUBST([openbios_arch])
 
-# if test $build_syslinux = yes ; then
-   # Check for NASM
-   # Check for uuid-dev   
-# fi
+if test $build_syslinux = yes ; then
+   AC_CHECK_PROG([NASM],[nasm],[nasm])
+   if test x"$NASM" = x"" ; then
+   	  AC_MSG_ERROR([NASM is required to build the SYSLINUX component of the bootloader])
+   fi
+   AC_CHECK_FUNC([uuid_generate],,[
+		AC_CHECK_LIB([uuid],[uuid_generate],,[
+				AC_MSG_ERROR([libuuid is required to build the SYSLINUX component of the bootloader])
+		])
+   ])
+fi
 
 bootdir="/boot"
 AC_SUBST([bootdir])
@@ -59,8 +65,15 @@ AC_SUBST([bootdir])
 bootarchdir="$bootdir/$boot_arch"
 AC_SUBST([bootarchdir])
 
-XSLTPROC=xsltproc
-AC_SUBST([XSLTPROC])
+AC_CHECK_PROG([XSLTPROC],[xsltproc],[xsltproc])
+if test x"$XSLTPROC" = x"" ; then
+   AC_MSG_ERROR([xsltproc is required to build the OpenBIOS component of the bootloader])
+fi
+
+AC_CHECK_PROG([TOKE],[toke],[toke])
+if test x"$TOKE" = x"" ; then
+   AC_MSG_ERROR([toke is required to build the OpenBIOS component of the bootloader])
+fi
 
 $MKDIR_P $boot_arch/target
 $MKDIR_P $boot_arch/target/include
