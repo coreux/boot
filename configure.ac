@@ -21,7 +21,7 @@ AC_CANONICAL_HOST
 AC_PROG_CC
 
 
-AC_MSG_CHECKING([whether $host_cpu-$host_vendor is a supported boot architecture])
+AC_MSG_CHECKING([whether $host is a supported boot architecture])
 
 build_syslinux=no
 boot_arch=no
@@ -32,8 +32,7 @@ case "$host_cpu-$host_vendor" in
 		build_syslinux=yes
 		;;
 	 x86_64-pc|amd64-pc|x86_64-unknown|amd64-unknown)
-#	    boot_arch=amd64-pc
-		boot_arch=x86-pc
+	    boot_arch=amd64-pc
 		openbios_arch=x86
 		build_syslinux=yes
 		;;
@@ -43,7 +42,7 @@ if test $boot_arch = no ; then
    AC_MSG_RESULT([no])
    boot_arch=""
 else
-   AC_MSG_RESULT([yes])
+   AC_MSG_RESULT([yes, $boot_arch])
 fi
 
 AC_SUBST([boot_arch])
@@ -94,6 +93,9 @@ Makefile
 x86-pc/Makefile
 x86-pc/config.mak
 x86-pc/config.xml
+amd64-pc/Makefile
+amd64-pc/config.mak
+amd64-pc/config.xml
 ])
 
 AC_OUTPUT
