@@ -1,9 +1,9 @@
-## Build logic for the x86-pc boot architecture
+## Build logic for the amd64-pc boot architecture
 
-all-local: all-syslinux-bios all-openbios
-clean-local: clean-syslinux
+all-local: all-syslinux-bios all-syslinux-efi32 all-syslinux-efi64 all-openbios
+clean-local: clean-syslinux clean-syslinux-efi32 clean-syslinux-efi64
 distclean-local: clean-syslinux distclean-openbios
-install-data-local: install-syslinux-cdfs install-syslinux-pxe install-syslinux-dosfs install-syslinux-btrfs install-syslinux-extfs install-syslinux-com32 install-syslinux-mbr install-openbios
+install-data-local: install-syslinux-cdfs install-syslinux-pxe install-syslinux-dosfs install-syslinux-btrfs install-syslinux-extfs install-syslinux-com32 install-syslinux-mbr install-syslinux-efi32 install-syslinux-efi64 install-openbios
 
 EXTRA_DIST = config.xml.in config.mak.in
 
@@ -16,5 +16,7 @@ DISTCLEANFILES = config.xml config.mak
 dist_bootarch_DATA = stage1.cfg
 
 include $(top_srcdir)/syslinux-bios.mk
+include $(top_srcdir)/syslinux-efi32.mk
+include $(top_srcdir)/syslinux-efi64.mk
 include $(top_srcdir)/openbios.mk
 
